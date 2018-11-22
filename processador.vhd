@@ -104,7 +104,7 @@ architecture a_processador of processador is
     signal endRomProDec: unsigned(14 downto 0);
     signal codigo: unsigned(3 downto 0);
     signal selDecProReg1, selDecProReg2: unsigned(2 downto 0);
-    signal pule, escrevaPC, escrevaReg, leiaRam, reg1OuConst, reg2OuConst. RegOuDec, ulaOuRam, lixo, zero, negativo, selConstOuDec, flagsRst, overflow, carry: std_logic;
+    signal pule, escrevaPC, escrevaReg, escrevaRam, reg1OuConst, reg2OuConst. RegOuDec, ulaOuRam, lixo, zero, negativo, selConstOuDec, flagsRst, overflow, carry: std_logic;
     signal calculeIsto: unsigned(1 downto 0);
     signal constantePulo: unsigned(15 downto 0);
 
@@ -134,6 +134,7 @@ architecture a_processador of processador is
                                        rst=>rst,
                                        pc_wr_en=>escrevaPC,
                                        regs_wr_en=>escrevaReg,
+                                       ram_wr_en=>escrevaRam,
                                        jump_en=>pule,
                                        origemJump=>RegOuDec,
                                        flagsRst=>flagsRst,
@@ -200,9 +201,9 @@ architecture a_processador of processador is
                                     estado=>selConstOuDec);
 
     MemRam: ram port map( clk=>clk,
-                          endereco=>dadoOutUla,
-                          wr_en=> ulaOuRam,
-                          dado_in=>,
+                          endereco=>dadoOutUla, -- aqui é tando o endereço de leitura quanto de escrita
+                          wr_en=>escrevaRam,
+                          dado_in=>busReg2ToMux, -- pra escrever na RAM o dado sempre vem do reg2
                           dado_out=>dadoRamToRegMux); 
 
 

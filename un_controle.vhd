@@ -7,13 +7,14 @@ entity un_controle is
          rst: in std_logic;
 		 pc_wr_en: out std_logic;
 		 regs_wr_en: out std_logic;
+		 ram_wr_en: out std_logic;
          jump_en: out std_logic;
 		 origemJump: out std_logic;
 		 flagsRst: out std_logic;
 		 operacao: out unsigned(1 downto 0);
 		 reg1OuConst: out std_logic; -- ADD e SUB
 		 reg2OuConst: out std_logic; -- ADDI e LD.W
-		 ulaOuRam: out std_logic; -- ADDI e LD.W
+		 ulaOuRam: out std_logic;
 		 opcode: in unsigned(3 downto 0)
 	);
 end entity;
@@ -39,7 +40,7 @@ architecture a_un_controle of un_controle is
     pc_wr_en <= '1' when estado="00" else
     			'0';
 
-	regs_wr_en <= '1' when estado="10" or estado="01"  else
+	regs_wr_en <= '1' when estado="10" or estado="01" and not opcode="0111" else -- aqui mudei pra ele não escrever nada nos regs acidentalmente quando for escrever na RAM
     '0';
 
 	origemJump <= '1' when opcode="0110" else
@@ -53,10 +54,13 @@ architecture a_un_controle of un_controle is
 					'1' when estado="10" else --I
 					'0';
 
-	reg2OuConst <=  '1' when opcode="1001" or opcode="1101" else 
+	reg2OuConst <=  '1' when opcode="1001" or opcode="1101" else -- operações "especiais" pois lidam com os dois regs e com constante
 					'0';	
 
-	ulaOuRam <= '1' when opcode="1101" else 
+	ulaOuRam <= '1' when opcode="1101" else -- origem do dado de entrada do banco de regs
+				'0';
+
+	ram_wr_en <= '1' when opcode="0111" and estado="01" else 
 				'0';
 
 	flagsRst <= '1' when estado="10" and opcode="1010" else
