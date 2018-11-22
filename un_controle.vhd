@@ -34,9 +34,7 @@ architecture a_un_controle of un_controle is
     jump_en <= '1' when opcode="0110" and estado="00" else
     		   '0'; 
 
-    pc_wr_en <= --'0' when estado="00" and opcode="1010" else 
-    			--'1' when estado="10" and opcode="1010" else 
-    			'1' when estado="00" else
+    pc_wr_en <= '1' when estado="00" else
     			'0';
 
 	regs_wr_en <= '1' when estado="10" or estado="01"  else

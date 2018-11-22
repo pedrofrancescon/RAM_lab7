@@ -92,10 +92,10 @@ architecture a_processador of processador is
 
     component ram
         port( clk: in std_logic;
-              endereco: in unsigned(6 downto 0); 
+              endereco: in unsigned(15 downto 0); 
               wr_en: in std_logic;
-              dado_in: in unsigned(15 downto 0); 
-              dado_out: out unsigned(15 downto 0) );
+              dado_in: in unsigned(14 downto 0); 
+              dado_out: out unsigned(14 downto 0) );
     end component;
 
     signal endPcPraRom, busDecPraUla, busReg1ToMuxs, busReg2ToUla: unsigned(15 downto 0);
@@ -179,5 +179,12 @@ architecture a_processador of processador is
                                     rst=>flagsRst,
                                     wr_en=>negativo,
                                     estado=>selConstOuDec);
+    
+    MemRam: ram port map( clk=>clk,
+                          endereco=> ,
+                          wr_en=> ,
+                          dado_in=> ,
+                          dado_out=>  );
+
 
 end architecture;
