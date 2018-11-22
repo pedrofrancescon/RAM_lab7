@@ -1,0 +1,43 @@
+v 3
+file . "processador_tb.vhd" "20181109134107.000" "20181122003142.963":
+  entity processador_tb at 1( 0) + 0 on 37;
+  architecture a_processador_tb of processador_tb at 8( 108) + 0 on 38;
+file . "decoder.vhd" "20181110181812.000" "20181122003142.797":
+  entity decoder at 1( 0) + 0 on 33;
+  architecture a_decoder of decoder at 15( 352) + 0 on 34;
+file . "ula.vhd" "20181109180238.000" "20181122003142.650":
+  entity ula at 1( 0) + 0 on 29;
+  architecture a_ula of ula at 17( 558) + 0 on 30;
+file . "maquinaEst.vhd" "20181110185214.000" "20181122003142.511":
+  entity maquinaest at 1( 0) + 0 on 25;
+  architecture a_maquinaest of maquinaest at 13( 236) + 0 on 26;
+file . "pc16bits.vhd" "20181109135918.000" "20181122003142.365":
+  entity pc16bits at 1( 0) + 0 on 21;
+  architecture a_pc16bits of pc16bits at 16( 287) + 0 on 22;
+file . "rom.vhd" "20181110222636.000" "20181122003142.226":
+  entity rom at 1( 0) + 0 on 17;
+  architecture a_rom of rom at 12( 221) + 0 on 18;
+file . "flipFlop.vhd" "20181110173413.000" "20181122003142.078":
+  entity flipflop at 1( 0) + 0 on 13;
+  architecture a_flipflop of flipflop at 13( 211) + 0 on 14;
+file . "mux16b_2in.vhd" "20181109134106.000" "20181122003141.984":
+  entity mux16b_2in at 1( 0) + 0 on 11;
+  architecture a_mux16b_2in of mux16b_2in at 12( 250) + 0 on 12;
+file . "mux16b_8in.vhd" "20181109134105.000" "20181122003142.153":
+  entity mux16b_8in at 1( 0) + 0 on 15;
+  architecture a_mux16b_8in of mux16b_8in at 18( 489) + 0 on 16;
+file . "reg16bits.vhd" "20181109134518.000" "20181122003142.296":
+  entity reg16bits at 1( 0) + 0 on 19;
+  architecture a_reg16bits of reg16bits at 15( 261) + 0 on 20;
+file . "demux1bit.vhd" "20181023021454.000" "20181122003142.435":
+  entity demux1bit at 1( 0) + 0 on 23;
+  architecture a_demux1bit of demux1bit at 19( 398) + 0 on 24;
+file . "un_controle.vhd" "20181110213124.000" "20181122003142.579":
+  entity un_controle at 1( 0) + 0 on 27;
+  architecture a_un_controle of un_controle at 19( 426) + 0 on 28;
+file . "bank8regs.vhd" "20181023021454.000" "20181122003142.721":
+  entity bank8regs at 1( 0) + 0 on 31;
+  architecture a_bank8regs of bank8regs at 18( 413) + 0 on 32;
+file . "processador.vhd" "20181110211624.000" "20181122003142.867":
+  entity processador at 1( 0) + 0 on 35;
+  architecture a_processador of processador at 11( 169) + 0 on 36;
