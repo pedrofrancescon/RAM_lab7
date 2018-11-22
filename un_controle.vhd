@@ -11,7 +11,9 @@ entity un_controle is
 		 origemJump: out std_logic;
 		 flagsRst: out std_logic;
 		 operacao: out unsigned(1 downto 0);
-		 tipoOperacao: out std_logic; --R ou I
+		 reg1OuConst: out std_logic; -- ADD e SUB
+		 reg2OuConst: out std_logic; -- ADDI e LD.W
+		 ulaOuRam: out std_logic; -- ADDI e LD.W
 		 opcode: in unsigned(3 downto 0)
 	);
 end entity;
@@ -43,13 +45,19 @@ architecture a_un_controle of un_controle is
 	origemJump <= '1' when opcode="0110" else
 	'0';
 
-	operacao <= "00" when opcode="0001" or opcode="0010" or opcode="1100" or opcode="0101" else --soma
+	operacao <= "00" when opcode="0001" or opcode="0010" or opcode="1101" or opcode="0101" or opcode="1001" else --soma
 	 			"01" when opcode="0011" or opcode="0100" else --subtracao
 	 			"11";
 
-	tipoOperacao <= '0' when estado="01" else --R
+	reg1OuConst <=  '0' when estado="01" else --R
 					'1' when estado="10" else --I
 					'0';
+
+	reg2OuConst <=  '1' when opcode="1001" or opcode="1101" else 
+					'0';	
+
+	ulaOuRam <= '1' when opcode="1101" else 
+				'0';
 
 	flagsRst <= '1' when estado="10" and opcode="1010" else
 				'1' when rst='1' else 

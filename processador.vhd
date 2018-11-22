@@ -36,7 +36,8 @@ architecture a_processador of processador is
               origemJump: out std_logic;
               flagsRst: out std_logic;
               operacao: out unsigned(1 downto 0);
-              tipoOperacao: out std_logic;
+              reg1OuConst: out std_logic;
+              reg2OuConst: out std_logic;
               opcode: in unsigned(3 downto 0)
         );
     end component;
@@ -98,12 +99,12 @@ architecture a_processador of processador is
               dado_out: out unsigned(15 downto 0) );
     end component;
 
-    signal endPcPraRom, busDecPraUla, busReg1ToMuxs, busReg2ToUla: unsigned(15 downto 0);
-    signal dadoUlaToRegs, muxPraUla, endDecPraMux,endMuxPraMuxPc,endMuxProPc, ramPraUla: unsigned(15 downto 0);
+    signal endPcPraRom, busDecPraUla, busReg1ToMuxs, busReg2ToMux: unsigned(15 downto 0);
+    signal dadoOutUla, dadoRamToRegMux, outMuxToRegsIn, muxOuPraUla, muxEPraUla, endDecPraMux, endMuxPraMuxPc, endMuxProPc: unsigned(15 downto 0);
     signal endRomProDec: unsigned(14 downto 0);
     signal codigo: unsigned(3 downto 0);
     signal selDecProReg1, selDecProReg2: unsigned(2 downto 0);
-    signal pule, escrevaPC, escrevaReg, leiaRam, opImediata, RegOuDec, lixo, zero, negativo, selConstOuDec, flagsRst, overflow, carry: std_logic;
+    signal pule, escrevaPC, escrevaReg, leiaRam, reg1OuConst, reg2OuConst. RegOuDec, ulaOuRam, lixo, zero, negativo, selConstOuDec, flagsRst, overflow, carry: std_logic;
     signal calculeIsto: unsigned(1 downto 0);
     signal constantePulo: unsigned(15 downto 0);
 
@@ -137,33 +138,51 @@ architecture a_processador of processador is
                                        origemJump=>RegOuDec,
                                        flagsRst=>flagsRst,
                                        operacao=>calculeIsto,
-                                       tipoOperacao=>opImediata,
+                                       reg1OuConst=>reg1OuConst,
+                                       reg2OuConst=>reg2OuConst,
+                                       ulaOuRam=>ulaOuRam,
                                        opcode=>codigo);
 
     bancoReg: bank8regs port map(selOut1=>selDecProReg1,
                                  selOut2=>selDecProReg2,
-                                 dataIn=>dadoUlaToRegs,
+                                 dataIn=>outMuxToRegsIn,
                                  selIn=>selDecProReg2,
                                  wr_en=>escrevaReg,
                                  clk=>clk,
                                  rst=>rst,
                                  out1=>busReg1ToMuxs,
-                                 out2=>busReg2ToUla);
+                                 out2=>busReg2ToMux);
 
-    unLogArit: ula port map(entr0=>muxPraUla,
-                            entr1=>busReg2ToUla,
+    unLogArit: ula port map(entr0=>muxOuPraUla,
+                            entr1=>muxEPraUla,
                             sel=>calculeIsto,
-                            result=>dadoUlaToRegs,
+                            result=>dadoOutUla,
                             maiorIgual=>lixo,
                             Z=>zero,
                             S=>negativo,
                             OV=>overflow,
                             CY=>carry);
 
-    MuxOpIR: mux16b_2in port map(entr0=>busReg1ToMuxs,
+    -- Esse Mux é pros ADD ou SUB de registrador com constante
+    -- Escolhe entre reg1 ou constante vinda do decodificador
+    MuxOpIouR: mux16b_2in port map(entr0=>busReg1ToMuxs,
                                 entr1=>busDecPraUla,
-                                sel=>opImediata,
-                                saida=>muxPraUla);
+                                sel=>reg1OuConst,
+                                saida=>muxOuPraUla);
+
+    -- Esse Mux é pros ADDI ou LD.W
+    -- Escolhe entre reg2 ou constante vinda do decodificador
+    MuxOpIeR: mux16b_2in port map(entr0=>busReg2ToMux,
+                                entr1=>busDecPraUla,
+                                sel=>reg2OuConst,
+                                saida=>muxEPraUla);
+
+    -- Esse Mux é pra entrada do banco de regs
+    -- Escolhe entre o valor que vem direto da ULA ou o valor que vem da RAM
+    MuxRegsIn: mux16b_2in port map(entr0=>dadoOutUla,
+                                entr1=>dadoRamToRegMux,
+                                sel=>ulaOuRam,
+                                saida=>outMuxToRegsIn);
 
     MuxConstOuDec: mux16b_2in port map(entr0=>constantePulo,
                                        entr1=>endDecPraMux,
@@ -181,10 +200,10 @@ architecture a_processador of processador is
                                     estado=>selConstOuDec);
 
     MemRam: ram port map( clk=>clk,
-                          endereco=>busReg2ToUla,
-                          wr_en=> leiaRam,
-                          dado_in=>busReg2ToUla,
-                          dado_out=> ramPraUla); --quando o destino for o registrador podemos somar com reg0 com o addi
+                          endereco=>dadoOutUla,
+                          wr_en=> ulaOuRam,
+                          dado_in=>,
+                          dado_out=>dadoRamToRegMux); 
 
 
 end architecture;
