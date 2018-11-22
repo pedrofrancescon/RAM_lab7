@@ -92,18 +92,18 @@ architecture a_processador of processador is
 
     component ram
         port( clk: in std_logic;
-              endereco: in unsigned(15 downto 0); 
+              endereco: in unsigned(15 downto 0);
               wr_en: in std_logic;
-              dado_in: in unsigned(14 downto 0); 
-              dado_out: out unsigned(14 downto 0) );
+              dado_in: in unsigned(15 downto 0);
+              dado_out: out unsigned(15 downto 0) );
     end component;
 
     signal endPcPraRom, busDecPraUla, busReg1ToMuxs, busReg2ToUla: unsigned(15 downto 0);
-    signal dadoUlaToRegs, muxPraUla, endDecPraMux,endMuxPraMuxPc,endMuxProPc: unsigned(15 downto 0);
+    signal dadoUlaToRegs, muxPraUla, endDecPraMux,endMuxPraMuxPc,endMuxProPc, ramPraUla: unsigned(15 downto 0);
     signal endRomProDec: unsigned(14 downto 0);
     signal codigo: unsigned(3 downto 0);
     signal selDecProReg1, selDecProReg2: unsigned(2 downto 0);
-    signal pule, escrevaPC, escrevaReg, opImediata, RegOuDec, lixo, zero, negativo, selConstOuDec, flagsRst, overflow, carry: std_logic;
+    signal pule, escrevaPC, escrevaReg, leiaRam, opImediata, RegOuDec, lixo, zero, negativo, selConstOuDec, flagsRst, overflow, carry: std_logic;
     signal calculeIsto: unsigned(1 downto 0);
     signal constantePulo: unsigned(15 downto 0);
 
@@ -112,22 +112,22 @@ architecture a_processador of processador is
     constantePulo <= "0000000000000001";
 
     memProg: rom port map(clk=>clk,
-                          endereco=>endPcPraRom, 
-                          dado=>endRomProDec); 
+                          endereco=>endPcPraRom,
+                          dado=>endRomProDec);
 
     contador: pc16bits port map(clk=>clk,
                                 rst=>rst,
                                 wr_en=>escrevaPC,
                                 jump_en=>pule,
-                                data_in=>endMuxProPc, 
-                                data_out=>endPcPraRom); 
+                                data_in=>endMuxProPc,
+                                data_out=>endPcPraRom);
 
-    decodificador: decoder port map(instr=>endRomProDec, 
-                                    opcode=>codigo, 
-                                    valor=>busDecPraUla, 
-                                    selReg1=>selDecProReg1, 
-                                    selReg2=>selDecProReg2, 
-                                    endereco=>endDecPraMux); 
+    decodificador: decoder port map(instr=>endRomProDec,
+                                    opcode=>codigo,
+                                    valor=>busDecPraUla,
+                                    selReg1=>selDecProReg1,
+                                    selReg2=>selDecProReg2,
+                                    endereco=>endDecPraMux);
 
     unidControle: un_controle port map(clk=>clk,
                                        rst=>rst,
@@ -140,51 +140,51 @@ architecture a_processador of processador is
                                        tipoOperacao=>opImediata,
                                        opcode=>codigo);
 
-    bancoReg: bank8regs port map(selOut1=>selDecProReg1, 
-                                 selOut2=>selDecProReg2, 
-                                 dataIn=>dadoUlaToRegs, 
-                                 selIn=>selDecProReg2, 
+    bancoReg: bank8regs port map(selOut1=>selDecProReg1,
+                                 selOut2=>selDecProReg2,
+                                 dataIn=>dadoUlaToRegs,
+                                 selIn=>selDecProReg2,
                                  wr_en=>escrevaReg,
                                  clk=>clk,
                                  rst=>rst,
-                                 out1=>busReg1ToMuxs, 
-                                 out2=>busReg2ToUla); 
+                                 out1=>busReg1ToMuxs,
+                                 out2=>busReg2ToUla);
 
-    unLogArit: ula port map(entr0=>muxPraUla, 
-                            entr1=>busReg2ToUla, 
+    unLogArit: ula port map(entr0=>muxPraUla,
+                            entr1=>busReg2ToUla,
                             sel=>calculeIsto,
-                            result=>dadoUlaToRegs, 
+                            result=>dadoUlaToRegs,
                             maiorIgual=>lixo,
                             Z=>zero,
                             S=>negativo,
                             OV=>overflow,
                             CY=>carry);
 
-    MuxOpIR: mux16b_2in port map(entr0=>busReg1ToMuxs, 
-                                entr1=>busDecPraUla, 
+    MuxOpIR: mux16b_2in port map(entr0=>busReg1ToMuxs,
+                                entr1=>busDecPraUla,
                                 sel=>opImediata,
-                                saida=>muxPraUla); 
+                                saida=>muxPraUla);
 
-    MuxConstOuDec: mux16b_2in port map(entr0=>constantePulo, 
-                                       entr1=>endDecPraMux, 
-                                       sel=>selConstOuDec, 
-                                       saida=>endMuxPraMuxPc); 
+    MuxConstOuDec: mux16b_2in port map(entr0=>constantePulo,
+                                       entr1=>endDecPraMux,
+                                       sel=>selConstOuDec,
+                                       saida=>endMuxPraMuxPc);
 
-    MuxPCjump: mux16b_2in port map(entr0=>endMuxPraMuxPc, 
-                                   entr1=>busReg2ToUla,  
-                                   sel=>RegOuDec, 
-                                   saida=>endMuxProPc); 
+    MuxPCjump: mux16b_2in port map(entr0=>endMuxPraMuxPc,
+                                   entr1=>busReg2ToUla,
+                                   sel=>RegOuDec,
+                                   saida=>endMuxProPc);
 
     NegativoFlag: flipFlop port map(clk=>clk,
                                     rst=>flagsRst,
                                     wr_en=>negativo,
                                     estado=>selConstOuDec);
-    
+
     MemRam: ram port map( clk=>clk,
-                          endereco=> ,
-                          wr_en=> ,
-                          dado_in=> ,
-                          dado_out=>  );
+                          endereco=>busReg2ToUla,
+                          wr_en=> leiaRam,
+                          dado_in=>busReg2ToUla,
+                          dado_out=> ramPraUla); --quando o destino for o registrador podemos somar com reg0 com o addi
 
 
 end architecture;
