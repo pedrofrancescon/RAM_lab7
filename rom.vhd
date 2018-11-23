@@ -12,32 +12,18 @@ end entity;
 architecture a_rom of rom is
 	type mem is array (0 to 2047) of unsigned(14 downto 0);
 	constant conteudo_rom : mem := (
-		-- Lab 5
-
-		--0=> "000000000000000",  -- NOP
-		--1=> "001001100000101",  -- ADD reg3,5
-		--2=> "001010000001000",  -- ADD reg4,8
-		--3=> "000101110000000",  -- ADD reg3,reg4
-		--4=> "010110101100000",  -- MOV reg5,reg3
-		--5=> "010010100000001",  -- SUB reg5,1
-		--6=> "001011000010100",  -- ADD reg6,20
-		--7=> "011011000000000",  -- SWITCH reg6
-		--20=> "010101110100000", -- MOV reg3,reg5
-		--21=> "001011100000011", -- ADD reg7,3
-		--22=> "011011100000000", -- SWITCH reg7
-
-		-- Lab 6
-
 		0=> "000000000000000",  -- NOP
-		1=> "001001100000000",  -- ADD reg3,0
-		2=> "001010000000000",  -- ADD reg4,0
-		3=> "000110001100000",  -- ADD reg4,reg3
-		4=> "110001101100001",  -- ADDI reg3,reg3,1
-		5=> "010110101100000",  -- MOV reg5,reg3
-		6=> "010010100000010",  -- SUB reg5,2 //coloquei 2 ao invés de 30 p/ os testes ficarem mais curtos
-		7=> "101011111111101",  -- BL -3
-		8=> "010110110000000",  -- MOV reg5,reg4
-
+		1=> "001000100000000",  -- ADD reg1,0
+		2=> "001001000011110",  -- ADD reg2,30
+		3=> "011101000101010",  -- ST.W reg2,10[reg1] # salva 30 no endereço 10
+		4=> "001001100000101",  -- ADD reg3,5
+		5=> "100110001100101",  -- LD.W 5[reg3],reg4 # valor da RAM no endr 10 => reg4
+		6=> "010111110000000",  -- MOV reg7,reg4
+		7=> "011111100100001",  -- ST.W reg7,1[reg1]
+		8=> "001000100000001",  -- ADD reg1,1
+		9=> "100111000100000",  -- LD.W 0[reg1],reg6
+		10=> "010101011000000",  -- MOV reg2,reg6
+		11=> "010100101000000",  -- MOV reg1,reg2
 		others => (others=>'0')
 	);
 begin

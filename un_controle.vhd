@@ -40,24 +40,29 @@ architecture a_un_controle of un_controle is
     pc_wr_en <= '1' when estado="00" else
     			'0';
 
-	regs_wr_en <= '1' when estado="10" or estado="01" and not opcode="0111" else -- aqui mudei pra ele não escrever nada nos regs acidentalmente quando for escrever na RAM
-    '0';
+	--regs_wr_en <= '1' when estado="10" and not opcode="0111" else -- aqui mudei pra ele não escrever nada nos regs acidentalmente quando for escrever na RAM
+ --   			  '1' when estado="01" and not opcode="0111" else
+ --   			  '0';
+
+    regs_wr_en <= '1' when estado="10" else -- aqui mudei pra ele não escrever nada nos regs acidentalmente quando for escrever na RAM
+    			  '1' when estado="01" else
+    			  '0';
 
 	origemJump <= '1' when opcode="0110" else
 	'0';
 
-	operacao <= "00" when opcode="0001" or opcode="0010" or opcode="1101" or opcode="0101" or opcode="1001" else --soma
-	 			"01" when opcode="0011" or opcode="0100" else --subtracao
+	operacao <= "00" when opcode="0001" or opcode="0010" or opcode="1101" or opcode="0101" or opcode="1001" or opcode="0111" else --soma
+	 			"01" when opcode="0011" or opcode="0100" else -- subtracao
 	 			"11";
 
 	reg1OuConst <=  '0' when estado="01" else --R
 					'1' when estado="10" else --I
 					'0';
 
-	reg2OuConst <=  '1' when opcode="1001" or opcode="1101" else -- operações "especiais" pois lidam com os dois regs e com constante
+	reg2OuConst <=  '1' when opcode="1001" or opcode="1101" or opcode="0111" or opcode="0101" else -- operações "especiais" pois lidam com os dois regs e com constante
 					'0';	
 
-	ulaOuRam <= '1' when opcode="1101" else -- origem do dado de entrada do banco de regs
+	ulaOuRam <= '1' when opcode="1001" else -- origem do dado de entrada do banco de regs
 				'0';
 
 	ram_wr_en <= '1' when opcode="0111" and estado="01" else 

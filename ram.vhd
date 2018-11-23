@@ -12,7 +12,7 @@ port(clk : in std_logic;
 end entity;
 
 architecture a_ram of ram is
-	type mem is array (0 to 127) of unsigned(14 downto 0);
+	type mem is array (0 to 127) of unsigned(15 downto 0);
 	signal conteudo_ram : mem;
 begin
 	process(clk,wr_en) 

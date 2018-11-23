@@ -32,12 +32,14 @@ architecture a_processador of processador is
               rst: in std_logic;
               pc_wr_en: out std_logic;
               regs_wr_en: out std_logic;
+              ram_wr_en: out std_logic;
               jump_en: out std_logic;
               origemJump: out std_logic;
               flagsRst: out std_logic;
               operacao: out unsigned(1 downto 0);
               reg1OuConst: out std_logic;
               reg2OuConst: out std_logic;
+              ulaOuRam: out std_logic;
               opcode: in unsigned(3 downto 0)
         );
     end component;
@@ -99,12 +101,12 @@ architecture a_processador of processador is
               dado_out: out unsigned(15 downto 0) );
     end component;
 
-    signal endPcPraRom, busDecPraUla, busReg1ToMuxs, busReg2ToMux: unsigned(15 downto 0);
+    signal endPcPraRom, busDecPraUla, busReg1ToMux, busReg2ToMux: unsigned(15 downto 0);
     signal dadoOutUla, dadoRamToRegMux, outMuxToRegsIn, muxOuPraUla, muxEPraUla, endDecPraMux, endMuxPraMuxPc, endMuxProPc: unsigned(15 downto 0);
     signal endRomProDec: unsigned(14 downto 0);
     signal codigo: unsigned(3 downto 0);
     signal selDecProReg1, selDecProReg2: unsigned(2 downto 0);
-    signal pule, escrevaPC, escrevaReg, escrevaRam, reg1OuConst, reg2OuConst. RegOuDec, ulaOuRam, lixo, zero, negativo, selConstOuDec, flagsRst, overflow, carry: std_logic;
+    signal pule, escrevaPC, escrevaReg, escrevaRam, reg1OuConst, reg2OuConst, RegOuDec, ulaOuRam, lixo, zero, negativo, selConstOuDec, flagsRst, overflow, carry: std_logic;
     signal calculeIsto: unsigned(1 downto 0);
     signal constantePulo: unsigned(15 downto 0);
 
@@ -151,7 +153,7 @@ architecture a_processador of processador is
                                  wr_en=>escrevaReg,
                                  clk=>clk,
                                  rst=>rst,
-                                 out1=>busReg1ToMuxs,
+                                 out1=>busReg1ToMux,
                                  out2=>busReg2ToMux);
 
     unLogArit: ula port map(entr0=>muxOuPraUla,
@@ -166,7 +168,7 @@ architecture a_processador of processador is
 
     -- Esse Mux é pros ADD ou SUB de registrador com constante
     -- Escolhe entre reg1 ou constante vinda do decodificador
-    MuxOpIouR: mux16b_2in port map(entr0=>busReg1ToMuxs,
+    MuxOpIouR: mux16b_2in port map(entr0=>busReg1ToMux,
                                 entr1=>busDecPraUla,
                                 sel=>reg1OuConst,
                                 saida=>muxOuPraUla);
@@ -191,7 +193,7 @@ architecture a_processador of processador is
                                        saida=>endMuxPraMuxPc);
 
     MuxPCjump: mux16b_2in port map(entr0=>endMuxPraMuxPc,
-                                   entr1=>busReg2ToUla,
+                                   entr1=>busReg2ToMux,
                                    sel=>RegOuDec,
                                    saida=>endMuxProPc);
 

@@ -1,43 +1,46 @@
 v 3
-file . "processador_tb.vhd" "20181109134107.000" "20181122003142.963":
-  entity processador_tb at 1( 0) + 0 on 37;
-  architecture a_processador_tb of processador_tb at 8( 108) + 0 on 38;
-file . "decoder.vhd" "20181110181812.000" "20181122003142.797":
-  entity decoder at 1( 0) + 0 on 33;
-  architecture a_decoder of decoder at 15( 352) + 0 on 34;
-file . "ula.vhd" "20181109180238.000" "20181122003142.650":
-  entity ula at 1( 0) + 0 on 29;
-  architecture a_ula of ula at 17( 558) + 0 on 30;
-file . "maquinaEst.vhd" "20181110185214.000" "20181122003142.511":
-  entity maquinaest at 1( 0) + 0 on 25;
-  architecture a_maquinaest of maquinaest at 13( 236) + 0 on 26;
-file . "pc16bits.vhd" "20181109135918.000" "20181122003142.365":
-  entity pc16bits at 1( 0) + 0 on 21;
-  architecture a_pc16bits of pc16bits at 16( 287) + 0 on 22;
-file . "rom.vhd" "20181110222636.000" "20181122003142.226":
-  entity rom at 1( 0) + 0 on 17;
-  architecture a_rom of rom at 12( 221) + 0 on 18;
-file . "flipFlop.vhd" "20181110173413.000" "20181122003142.078":
-  entity flipflop at 1( 0) + 0 on 13;
-  architecture a_flipflop of flipflop at 13( 211) + 0 on 14;
-file . "mux16b_2in.vhd" "20181109134106.000" "20181122003141.984":
-  entity mux16b_2in at 1( 0) + 0 on 11;
-  architecture a_mux16b_2in of mux16b_2in at 12( 250) + 0 on 12;
-file . "mux16b_8in.vhd" "20181109134105.000" "20181122003142.153":
-  entity mux16b_8in at 1( 0) + 0 on 15;
-  architecture a_mux16b_8in of mux16b_8in at 18( 489) + 0 on 16;
-file . "reg16bits.vhd" "20181109134518.000" "20181122003142.296":
-  entity reg16bits at 1( 0) + 0 on 19;
-  architecture a_reg16bits of reg16bits at 15( 261) + 0 on 20;
-file . "demux1bit.vhd" "20181023021454.000" "20181122003142.435":
-  entity demux1bit at 1( 0) + 0 on 23;
-  architecture a_demux1bit of demux1bit at 19( 398) + 0 on 24;
-file . "un_controle.vhd" "20181110213124.000" "20181122003142.579":
-  entity un_controle at 1( 0) + 0 on 27;
-  architecture a_un_controle of un_controle at 19( 426) + 0 on 28;
-file . "bank8regs.vhd" "20181023021454.000" "20181122003142.721":
-  entity bank8regs at 1( 0) + 0 on 31;
-  architecture a_bank8regs of bank8regs at 18( 413) + 0 on 32;
-file . "processador.vhd" "20181110211624.000" "20181122003142.867":
-  entity processador at 1( 0) + 0 on 35;
-  architecture a_processador of processador at 11( 169) + 0 on 36;
+file . "ram.vhd" "20181122215156.000" "20181122222247.518":
+  entity ram at 1( 0) + 0 on 613;
+  architecture a_ram of ram at 14( 266) + 0 on 614;
+file . "processador_tb.vhd" "20181109134107.000" "20181122222247.696":
+  entity processador_tb at 1( 0) + 0 on 617;
+  architecture a_processador_tb of processador_tb at 8( 108) + 0 on 618;
+file . "decoder.vhd" "20181122144636.000" "20181122222247.447":
+  entity decoder at 1( 0) + 0 on 611;
+  architecture a_decoder of decoder at 15( 352) + 0 on 612;
+file . "ula.vhd" "20181109180238.000" "20181122222247.299":
+  entity ula at 1( 0) + 0 on 607;
+  architecture a_ula of ula at 17( 558) + 0 on 608;
+file . "maquinaEst.vhd" "20181122212222.000" "20181122222247.156":
+  entity maquinaest at 1( 0) + 0 on 603;
+  architecture a_maquinaest of maquinaest at 13( 236) + 0 on 604;
+file . "pc16bits.vhd" "20181109135918.000" "20181122222247.009":
+  entity pc16bits at 1( 0) + 0 on 599;
+  architecture a_pc16bits of pc16bits at 16( 287) + 0 on 600;
+file . "rom.vhd" "20181123001854.000" "20181122222246.869":
+  entity rom at 1( 0) + 0 on 595;
+  architecture a_rom of rom at 12( 221) + 0 on 596;
+file . "flipFlop.vhd" "20181110173413.000" "20181122222246.728":
+  entity flipflop at 1( 0) + 0 on 591;
+  architecture a_flipflop of flipflop at 13( 211) + 0 on 592;
+file . "mux16b_2in.vhd" "20181109134106.000" "20181122222246.649":
+  entity mux16b_2in at 1( 0) + 0 on 589;
+  architecture a_mux16b_2in of mux16b_2in at 12( 250) + 0 on 590;
+file . "mux16b_8in.vhd" "20181109134105.000" "20181122222246.798":
+  entity mux16b_8in at 1( 0) + 0 on 593;
+  architecture a_mux16b_8in of mux16b_8in at 18( 489) + 0 on 594;
+file . "reg16bits.vhd" "20181109134518.000" "20181122222246.940":
+  entity reg16bits at 1( 0) + 0 on 597;
+  architecture a_reg16bits of reg16bits at 15( 261) + 0 on 598;
+file . "demux1bit.vhd" "20181023021454.000" "20181122222247.083":
+  entity demux1bit at 1( 0) + 0 on 601;
+  architecture a_demux1bit of demux1bit at 19( 398) + 0 on 602;
+file . "un_controle.vhd" "20181123002238.000" "20181122222247.227":
+  entity un_controle at 1( 0) + 0 on 605;
+  architecture a_un_controle of un_controle at 22( 532) + 0 on 606;
+file . "bank8regs.vhd" "20181023021454.000" "20181122222247.371":
+  entity bank8regs at 1( 0) + 0 on 609;
+  architecture a_bank8regs of bank8regs at 18( 413) + 0 on 610;
+file . "processador.vhd" "20181122222601.000" "20181122222247.589":
+  entity processador at 1( 0) + 0 on 615;
+  architecture a_processador of processador at 11( 169) + 0 on 616;

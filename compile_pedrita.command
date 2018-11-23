@@ -88,6 +88,13 @@ echo
 echo "decoder DONE"
 echo
 
+ghdl -a ram.vhd
+ghdl -e ram
+
+echo
+echo "ram DONE"
+echo
+
 ghdl -a processador.vhd
 ghdl -e processador
 
